@@ -2,16 +2,20 @@
 
 var email = String(Session.getActiveUser().getEmail());
 
-function doclistUI(){ // or function doGet(){  //** see text
+function doclistUI(){
+  /*
+     // or function doGet()
+  {  //** see text
+  */
   var folderlist = new Array();
-  var folders = DocsList.getFolders()
+  var folders = DriveApp.getFolders()
   //Logger.log(folders);
   for(ff=0;ff<folders.length;++ff){
     //Logger.log(folders[ff]);
     folderlist.push(folders[ff].getName());
   }
   var app = UiApp.createApplication().setHeight(260).setWidth(700).setStyleAttribute('background', 'beige')
-  .setStyleAttribute('margin-top', '10px').setStyleAttribute('margin-left', '10px').setTitle("Doclist UI");
+      .setStyleAttribute('margin-top', '10px').setStyleAttribute('margin-left', '10px').setTitle("Doclist UI");
   var panel = app.createVerticalPanel()
   var hpanel = app.createHorizontalPanel();
   var Flist= app.createListBox(false).setName("Flb").setId("Flb").setVisibleItemCount(4).setWidth("180");
@@ -72,13 +76,13 @@ function click(e){
 
   if (folderName=='Choose a folder'){Dlist.clear();label.setText(" ");return app}
   if (folderName!='Root content'){
-    doclist=DocsList.getFolder(folderName).getFiles(0,2000)
+    doclist=DriveApp.getFoldersByName(folderName).getFiles(0,2000)
     var names = new Array();
     for (nn=0;nn<doclist.length;++nn){
       names.push([doclist[nn].getName(),doclist[nn].getId(),doclist[nn].getType()]);
     }
   }else{
-    doclist=DocsList.getRootFolder().getFiles(0,2000)
+    doclist=DriveApp.getFoldersByName().getFiles(0,2000)
     var names = new Array();
     for (nn=0;nn<doclist.length;++nn){
       names.push([doclist[nn].getName(),doclist[nn].getId(),doclist[nn].getType()]);
@@ -298,7 +302,16 @@ function importGDKCSV(strFile) {
   //strFile = (strFile || "flocom-gdk-201611242110.prn");
   //strFile = (strFile || "flocom-gdk-201703070645.prn");
   //strFile = (strFile || "flowcom-gdk-201705091906.prn");
-  strFile = (strFile || "flowcom-gdk-201710070813.prn");
+  //strFile = (strFile || "flowcom-gdk-201710070813.prn");
+  //strFile = (strFile || "flocom20180108192700.prn");
+  //strFile = (strFile || "flocom-gdk-20180412080600.prn");
+  //strFile = (strFile || "flocom-gdk-20180604193400.prn");
+  //strFile = (strFile || "flocom-gdk-20181021120900.prn");
+  //strFile = (strFile || "flocom-gdk-20181225095300.prn");
+  //strFile = (strFile || "flocom-gdk-20190125204500.prn");
+  //strFile = (strFile || "flocom-gdk-20190216122700.prn");
+  //strFile = (strFile || "flocom-gdk-20190401000000.prn");
+  strFile = (strFile || "flocom-gdk-20190804173200");
   var searchTerm = "title = '" + strFile + "'";
 
   // search for our file
@@ -326,9 +339,9 @@ function LoadData(e) {
   var hiddenlink =  e.parameter.hiddenlink;
   var ID = hiddenlink.substring(0,Number(hiddenlink.lastIndexOf("|")));
   var sent = app.getElementById("sent");
-  var fileBlob = DocsList.getFileById(ID).getBlob();
+  var fileBlob = DriveApp.getFileById(ID).getBlob();
   var content = fileBlob.getDataAsString();
-  parseFlocomData(DocsList.getFileById(ID).getName(), content);
+  parseFlocomData(DriveApp.getFileById(ID).getName(), content);
   sent.setVisible(false);
   return app ;  // update UI
 } // function LoadData
