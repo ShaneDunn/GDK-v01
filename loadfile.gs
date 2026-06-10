@@ -311,7 +311,7 @@ function importGDKCSV(strFile) {
   //strFile = (strFile || "flocom-gdk-20190125204500.prn");
   //strFile = (strFile || "flocom-gdk-20190216122700.prn");
   //strFile = (strFile || "flocom-gdk-20190401000000.prn");
-  strFile = (strFile || "flocom-gdk-20190804173200");
+  strFile = (strFile || "flocom-gdk-20190804173200.prn");
   var searchTerm = "title = '" + strFile + "'";
 
   // search for our file
